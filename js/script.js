@@ -7,30 +7,22 @@ con difficoltà 1 => tra 1 e 100
 con difficoltà 2 => tra 1 e 81
 con difficoltà 3 => tra 1 e 49*/
 
-//SCEGLIERE LA DIFFICOLTA'
-// let sizeGrid
-// const userChoice = prompt('scegli la difficoltà: easy, medium, hero');
 
-// if (userChoice === "easy") {
-    //    sizeGrid = 100;
-    // } else if (userChoice === "medium") {
-        //     sizeGrid = 81;
-        // } else if (userChoice === "hero"){
-            //     sizeGrid = 49;
-            // } else {
-                //     prompt('scegli una difficolà: easy, medium, hero');
-                // }
 // GAME CONTENT
 let bombItemsArray = [];
 let safeCells = [];
-let cellNumber = 100;               
+let cellNumber = 0;
+let limit = 16;               
 const grid = containerContent();
 const rndBombCell = rndBombNumbers();
 
+//PLAY BUTTON
 //Al click sul bottone fai partire il gioco
 
 const playBtn = document.getElementById("play-btn");
 playBtn.addEventListener("click", startGame);
+
+// FUNCTIONS
 
 //MAIN FUNCTION
 
@@ -44,8 +36,6 @@ function startGame() {
     grid.classList.remove("hidden");
     title.classList.add("hidden");
 }
-//1.1 CREARE UN FOR DA 1 A 100
-//1.2 AGGIUNGERE 100 DIV A CONTAINER
 
 
 
@@ -75,10 +65,7 @@ function containerContent() {
     return gridContainer;
 }
 
-// [*]fare una funzione che mi calcola 16 n random da 1 a 100
-// [*] mettere questi numeri in un array vuoto
-// []se la cella ha il contenuto dell'array bombCell allora
-    // []-colora di rosso la cella
+
 
 /**
  * Description: funzione che mi calcola 16 n random da 1 a 100 e li aggiunge all'array di bomb items
@@ -86,24 +73,35 @@ function containerContent() {
  */
 function rndBombNumbers() {
     for (let i = 0; i < 16; i++) {
-        let rndNumber = Math.floor(Math.random()*100);
+        let rndNumber = Math.floor(Math.random()*cellNumber);
         do {bombItemsArray.push(rndNumber);
         } while (!bombItemsArray.includes(rndNumber) && bombItemsArray.length === 16);
     }
 }
 console.log(bombItemsArray);
 
+
+
+/**
+ * Description: questa funzione determina il comportamento di ogni cella se viene cliccata e determina se si vince o perde
+ * @returns void
+ */
 function handleCellClick () {
     //prelevare numero cliccato
     const clickedNumber =parseInt(this.querySelector("span").textContent);
+
+    const gridItems = document.getElementsByClassName('grid-item');
+
     //se il numero cliccato è nell'array bombe:
     
     if (bombItemsArray.includes(clickedNumber)) {
         //la cella si colora di rosso
         this.classList.add("bomb");
-        //end game, //stampa risultato
+        //end game
         document.getElementById("result").innerHTML = `Hai perso! Hai selezionato ${safeCells.length} celle`;
 
+    } else if (safeCells.length + 1 === cellNumber - limit) {
+        alert('hai vinto');
 
     } else {
         //la cella si colora di azzurro
@@ -114,20 +112,24 @@ function handleCellClick () {
         //il numero della cella viene salvata all'interno dell'array safeCells
         safeCells.push(clickedNumber);
     }
+
 }
 
+//??
+function endGame () {
+    const gridItems = document.getElementsByClassName('grid-item');
+    for (let i = 0; i < gridItems.length; i++) {
+        const thisItem = gridItems[i];
+        thisItem.style.pointerEvents = "none";
+    }
+}
 
-
-
-// function bombItems() {
-    
-// }
 
 
 // DOM CONTENT
 /**
  * Description
- * @param {any} number numero da 1 a 100 generato dal ciclio for nella function 'containerContent'
+ * @param {any} number numero da 1 a 100 generato dal ciclo for nella function 'containerContent'
  * @returns {any}: DOM functions= crea elementi div e aggiunge classi all'interno di esse
  */
 function generateGridItem(number) {
@@ -141,10 +143,4 @@ function generateGridItem(number) {
     newGridItem.classList.add('grid-item');
 
     return newGridItem;
-
 }
-
-
-    
-
-
