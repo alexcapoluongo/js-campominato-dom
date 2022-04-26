@@ -11,7 +11,7 @@ con difficoltà 3 => tra 1 e 49*/
 // GAME CONTENT
 let bombItemsArray = [];
 let safeCells = [];
-let cellNumber = 0;
+let cellNumber = 100;
 let limit = 16;               
 const grid = containerContent();
 const rndBombCell = rndBombNumbers();
