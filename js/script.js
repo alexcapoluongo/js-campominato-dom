@@ -22,6 +22,7 @@ con difficoltà 3 => tra 1 e 49*/
                 // }
 // GAME CONTENT
 let bombItemsArray = [];
+let safeCells = [];
 let cellNumber = 100;               
 const grid = containerContent();
 const rndBombCell = rndBombNumbers();
@@ -64,8 +65,7 @@ function containerContent() {
         const domElement = generateGridItem(i);
 
     // 1.4 event listener per il cambio colore
-        domElement.addEventListener("click", function() {
-        this.classList.add('active')})
+        domElement.addEventListener("click", handleCellClick);
 
     // 1.5 append element to container
         gridContainer.append(domElement);
@@ -89,13 +89,32 @@ function rndBombNumbers() {
         let rndNumber = Math.floor(Math.random()*100);
         do {bombItemsArray.push(rndNumber);
         } while (!bombItemsArray.includes(rndNumber) && bombItemsArray.length === 16);
-        let element = document.getElementsByClassName('grid-item');
-        if (bombItemsArray[i] === element) {
-            console.log('hey');
-        }
     }
 }
 console.log(bombItemsArray);
+
+function handleCellClick () {
+    //prelevare numero cliccato
+    const clickedNumber =parseInt(this.querySelector("span").textContent);
+    //se il numero cliccato è nell'array bombe:
+    
+    if (bombItemsArray.includes(clickedNumber)) {
+        //la cella si colora di rosso
+        this.classList.add("bomb");
+        //end game, //stampa risultato
+        document.getElementById("result").innerHTML = `Hai perso! Hai selezionato ${safeCells.length} celle`;
+
+
+    } else {
+        //la cella si colora di azzurro
+        this.classList.add("active");
+        //cella non cliccabile 
+        // this.style.pointerEvents = "none";
+        this.removeEventListener("click", handleCellClick);
+        //il numero della cella viene salvata all'interno dell'array safeCells
+        safeCells.push(clickedNumber);
+    }
+}
 
 
 
@@ -116,7 +135,7 @@ function generateGridItem(number) {
     const newGridItem = document.createElement("div");
 
     //aggiungi numero all'interno del div
-    newGridItem.innerHTML = `${number}`;
+    newGridItem.innerHTML = `<span>${number}</span>`;
 
     //assegna classe grid item
     newGridItem.classList.add('grid-item');
