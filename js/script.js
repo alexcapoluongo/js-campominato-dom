@@ -99,7 +99,7 @@ function handleCellClick () {
         this.classList.add("bomb");
         //end game
         document.getElementById("result").innerHTML = `Hai perso! Hai selezionato ${safeCells.length} celle`;
-
+        endGame();
     } else if (safeCells.length + 1 === cellNumber - limit) {
         alert('hai vinto');
 
@@ -117,7 +117,8 @@ function handleCellClick () {
 
 //??
 function endGame () {
-    const gridItems = document.getElementsByClassName('grid-item');
+    const gridItems = document.querySelectorAll('.grid-item');
+    console.log(gridItems);
     for (let i = 0; i < gridItems.length; i++) {
         const thisItem = gridItems[i];
         thisItem.style.pointerEvents = "none";

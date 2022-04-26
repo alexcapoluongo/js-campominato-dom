@@ -7,13 +7,17 @@
 header {
     height:100px;
     background-color: red;
+    display: flex;
+    align-items: center;
 }
 
 main {
     height:calc(100vh - 200px);
     display: flex;
     justify-content: center;
+    flex-direction: column;
     align-items: center;
+    background-color: #7fffd4;
 }
 
 .grid-container {
@@ -28,18 +32,26 @@ main {
 .grid-item {
     width: calc(100% / 10);
     height: calc(100% / 10);
-    border: 2px solid red;
+    border: 1px solid black;
     display: flex;
     justify-content: center;
     align-items: center;
 }
 
 .active {
-    background-color: blue;
+    background-color: #6495ed;
 }
 
 .bomb {
     background-color:red;
+}
+
+#play-btn {
+    padding: 10px;
+    background-color:#719ded;
+    color:white;
+    margin:20px auto;
+    border-radius: 5px;
 }
 
 footer {
